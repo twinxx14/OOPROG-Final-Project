@@ -74,7 +74,7 @@ class User {
     public void deposit(double amount) {
         // Deposit money into the account
         balance += amount;
-        recordTransaction("Deposit", amount);
+        recordTransaction("[DEPOSIT]", amount);
     }
 
     public boolean withdraw(double amount) {
@@ -83,7 +83,7 @@ class User {
             return false; // Insufficient funds
         }
         balance -= amount;
-        recordTransaction("Withdrawal", amount);
+        recordTransaction("[WITHDRAWAL]", amount);
         return true;
     }
 
