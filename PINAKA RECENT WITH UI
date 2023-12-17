@@ -266,20 +266,28 @@ public class BankManagementSystem {
           JPasswordField passwordField = new JPasswordField(20);
           
           
-          JButton loginButton = new JButton("Login");
           JButton registerButton = new JButton("Register");
+          JButton loginButton = new JButton("Login");
+          
       
-          Color registerColor = new Color(0, 74, 173);
+          Color registerColor = new Color(0, 41, 96);
           Color loginColor = new Color(179, 115, 5);
           Font buttonFont = new Font("Monaco", Font.BOLD, 15);
           
+          // LOGIN BUTTON
           loginButton.setFont(buttonFont);
           loginButton.setForeground(Color.WHITE);  
           loginButton.setBackground(loginColor);
+          loginButton.setFocusable(false);
+          loginButton.setBorder(BorderFactory.createEtchedBorder());
           
+          // REGISTER BUTTON
           registerButton.setFont(buttonFont);
           registerButton.setForeground(Color.WHITE);
           registerButton.setBackground(registerColor);
+          registerButton.setFocusable(false);
+          registerButton.setBorder(BorderFactory.createEtchedBorder());
+
       
           Dimension buttonSize = new Dimension(150,150);
           loginButton.setPreferredSize(buttonSize);
@@ -318,7 +326,6 @@ public class BankManagementSystem {
                 String password = new String(passwordField.getPassword());
 
                 if (validateLogin(username, password)) {
-                    JOptionPane.showMessageDialog(mainFrame, "Login successful!");
                     cardLayout.show(mainPanel, "MainMenu"); // Switch to the main menu
                 } else {
                     JOptionPane.showMessageDialog(mainFrame, "Invalid username/password combination.");
@@ -337,8 +344,8 @@ public class BankManagementSystem {
         loginPanel.add(usernameField);
         loginPanel.add(passwordLabel);
         loginPanel.add(passwordField);
-        loginPanel.add(loginButton);
         loginPanel.add(registerButton);
+        loginPanel.add(loginButton);
                 
         
         mainPanel.add(loginPanel, "Login");
@@ -384,14 +391,24 @@ public class BankManagementSystem {
         passwordLabel.setForeground(Color.BLACK);
         confirmPasswordLabel.setForeground(Color.BLACK);
         
-        
         JButton registerButton = new JButton("Register");
-        JButton goToLoginButton = new JButton("Login");
+        JButton loginButton = new JButton("Go Back to Login"); 
         
+        Color registerColor = new Color(179, 115, 5);
+        Color loginColor = new Color(0, 74, 173);
+        Font buttonFont = new Font("Monaco", Font.BOLD, 15);
+          
+        // LOGIN BUTTON
+        loginButton.setFont(buttonFont);
+        loginButton.setForeground(Color.WHITE);  
+        loginButton.setBackground(loginColor);
+          
+        // REGISTER BUTTON
+        registerButton.setFont(buttonFont);
+        registerButton.setForeground(Color.WHITE);
+        registerButton.setBackground(registerColor);
         
-        goToLoginButton.setBackground(Color.BLUE);
-        registerButton.setBackground(Color.GREEN);
-        
+         
         
         idField.addFocusListener(new FocusListener() {
             @Override
@@ -471,7 +488,7 @@ public class BankManagementSystem {
             }
         });        
         
-        goToLoginButton.addActionListener(new ActionListener() {
+        loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(mainPanel, "Login");
@@ -487,7 +504,7 @@ public class BankManagementSystem {
         registerPanel.add(confirmPasswordLabel);
         registerPanel.add(confirmPasswordField);
         registerPanel.add(registerButton);
-        registerPanel.add(goToLoginButton);
+        registerPanel.add(loginButton);
 
         mainPanel.add(registerPanel, "Register");
     }
@@ -837,9 +854,9 @@ public class BankManagementSystem {
                    public void actionPerformed(ActionEvent e) {
                        // Save changes and display updated profile
                        currentUser.setUsername(nameField.getText());
-                       currentUser.setEmail(emailField.getText()); // Update email
-                       currentUser.setAddress(addressField.getText()); // Update address
-                       currentUser.setPhone(phoneField.getText()); // Update phone
+                       currentUser.setEmail(emailField.getText()); 
+                       currentUser.setAddress(addressField.getText()); 
+                       currentUser.setPhone(phoneField.getText()); 
    
                        // Save the updated profile info
                        currentUser.saveProfileInfo();
@@ -849,7 +866,7 @@ public class BankManagementSystem {
                                + "Email: " + currentUser.getEmail() + "\n"
                                + "Address: " + currentUser.getAddress() + "\n"
                                + "Phone: " + currentUser.getPhone();
-                       JOptionPane.showMessageDialog(mainFrame, "Profile updated!\n\n" + updatedInfo);
+                       JOptionPane.showMessageDialog(mainFrame, "Profile updated!");
    
                        // Disable editing of profile fields and hide the save button after saving
                        nameField.setEditable(false);
