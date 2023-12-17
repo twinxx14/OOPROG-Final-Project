@@ -66,15 +66,10 @@ class User {
         return balance;
     }
     
-    public List<String> getTransactionHistory() {
-        return new ArrayList<>(transactionHistory);
-    }
 
-    
     public void deposit(double amount) {
         // Deposit money into the account
         balance += amount;
-        recordTransaction("[DEPOSIT]", amount);
     }
 
     public boolean withdraw(double amount) {
@@ -83,15 +78,15 @@ class User {
             return false; // Insufficient funds
         }
         balance -= amount;
-        recordTransaction("[WITHDRAWAL]", amount);
         return true;
     }
 
     public void recordTransaction(String type, double amount) {
-        // Record transaction history
-        String transaction = type + " - Amount: P" + amount;
-        transactionHistory.add(transaction);
-    }
+       String transaction = type + " - Amount: P" + amount;
+       if (!transactionHistory.contains(transaction)) {
+           transactionHistory.add(transaction);
+       }
+   }
 
     public void performTransaction(String type, double amount) {
         // Perform a transaction
@@ -132,6 +127,15 @@ class User {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    public List<String> getTransactionHistory() {
+        return this.transactionHistory;
+    }
+    
+    public void addToTransactionHistory(String transaction) {
+        transactionHistory.add(transaction);
+        saveTransactionHistory();
     }
     
     public void loadProfileInfo() {
@@ -597,12 +601,13 @@ public class BankManagementSystem {
                     List<String> transactions = currentUser.getTransactionHistory();
 
                     // Display transactions in a dialog
-                    JTextArea textArea = new JTextArea();
+                    JTextArea transactiontextArea = new JTextArea();
+                    transactiontextArea.setEditable(false);
                     for (String transaction : transactions) {
-                        textArea.append(transaction + "\n");
+                        transactiontextArea.append(transaction + "\n");
                     }
 
-                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    JScrollPane scrollPane = new JScrollPane(transactiontextArea);
                     scrollPane.setPreferredSize(new Dimension(300, 200));
 
                     JOptionPane.showMessageDialog(mainFrame, scrollPane, "Transaction History",
@@ -653,13 +658,14 @@ public class BankManagementSystem {
 
     private static void loadUserDataFromFile() {
         // Load user data from file
-        File usersFile = new File("users.txt");
         try (BufferedReader reader = new BufferedReader(new FileReader(usersFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userData = line.split(":");
                 if (userData.length == 2) {
-                    userList.add(new User(userData[0], userData[1]));
+                    User user = new User(userData[0], userData[1]);
+                    user.loadTransactionHistory(); // Load transaction history for each user
+                    userList.add(user);
                 }
             }
         } catch (IOException ex) {
@@ -683,10 +689,9 @@ public class BankManagementSystem {
             writer.write(username + ":" + password);
             writer.newLine();
             writer.newLine();
-
-            // Add the new user to the userList
-            userList.add(new User(username, password));
-
+            User newUser = new User(username, password);
+            newUser.saveTransactionHistory(); // Create an empty transaction history file for the new user
+            userList.add(newUser);
             return true;
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -695,56 +700,57 @@ public class BankManagementSystem {
     }
 
        private static void performDeposit() {
-       // Perform deposit action
-       if (currentUser != null) {
-           String amountString = JOptionPane.showInputDialog(mainFrame, "Enter amount to deposit:");
-           if (amountString != null && !amountString.trim().isEmpty()) {
-               try {
-                   double amount = Double.parseDouble(amountString);
-                   if (amount > 0) {
-                       currentUser.deposit(amount); // Update balance with deposited amount
-                       JOptionPane.showMessageDialog(mainFrame, "Deposited amount: P" + amount);
-                   } else {
-                       JOptionPane.showMessageDialog(mainFrame, "Please enter a valid positive amount.");
-                   }
-               } catch (NumberFormatException ex) {
-                   JOptionPane.showMessageDialog(mainFrame, "Please enter a valid numeric amount.");
-               }
-           } else if (amountString != null && amountString.trim().isEmpty()) {
-               JOptionPane.showMessageDialog(mainFrame, "Please enter an amount.");
-           }
-       } else {
-           JOptionPane.showMessageDialog(mainFrame, "No user logged in.");
-       }
-   }
-   
-      private static void performWithdraw() {
-          // Perform withdraw action
-          if (currentUser != null) {
-              String amountString = JOptionPane.showInputDialog(mainFrame, "Enter amount to withdraw:");
-              if (amountString != null && !amountString.trim().isEmpty()) {
-                  try {
-                      double amount = Double.parseDouble(amountString);
-                      if (amount > 0) {
-                          if (amount <= currentUser.getBalance()) {
-                              currentUser.withdraw(amount); // Update balance with withdrawn amount
-                              JOptionPane.showMessageDialog(mainFrame, "Withdrawn amount: P" + amount);
-                          } else {
-                              JOptionPane.showMessageDialog(mainFrame, "Insufficient funds.");
-                          }
-                      } else {
-                          JOptionPane.showMessageDialog(mainFrame, "Please enter a valid positive amount.");
-                      }
-                  } catch (NumberFormatException ex) {
-                      JOptionPane.showMessageDialog(mainFrame, "Please enter a valid numeric amount.");
-                  }
-              } else if (amountString != null && amountString.trim().isEmpty()) {
-                  JOptionPane.showMessageDialog(mainFrame, "Please enter an amount.");
-              }
-          } else {
-              JOptionPane.showMessageDialog(mainFrame, "No user logged in.");
-          }
-      }
+    // Perform deposit action
+    if (currentUser != null) {
+        String amountString = JOptionPane.showInputDialog(mainFrame, "Enter amount to deposit:");
+        if (amountString != null && !amountString.trim().isEmpty()) {
+            try {
+                double amount = Double.parseDouble(amountString);
+                if (amount > 0) {
+                    currentUser.deposit(amount);
+                    currentUser.addToTransactionHistory("Deposit: P" + amount); // Update transaction history
+                    JOptionPane.showMessageDialog(mainFrame, "Deposited amount: P" + amount);
+                } else {
+                    JOptionPane.showMessageDialog(mainFrame, "Please enter a valid positive amount.");
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(mainFrame, "Please enter a valid numeric amount.");
+            }
+        } else if (amountString != null && amountString.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(mainFrame, "Please enter an amount.");
+        }
+    } else {
+        JOptionPane.showMessageDialog(mainFrame, "No user logged in.");
+    }
+}
+
+private static void performWithdraw() {
+    // Perform withdraw action
+    if (currentUser != null) {
+        String amountString = JOptionPane.showInputDialog(mainFrame, "Enter amount to withdraw:");
+        if (amountString != null && !amountString.trim().isEmpty()) {
+            try {
+                double amount = Double.parseDouble(amountString);
+                if (amount > 0) {
+                    if (currentUser.withdraw(amount)) {
+                        currentUser.addToTransactionHistory("Withdrawal: P" + amount); // Update transaction history
+                        JOptionPane.showMessageDialog(mainFrame, "Withdrawn amount: P" + amount);
+                    } else {
+                        JOptionPane.showMessageDialog(mainFrame, "Insufficient funds.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(mainFrame, "Please enter a valid positive amount.");
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(mainFrame, "Please enter a valid numeric amount.");
+            }
+        } else if (amountString != null && amountString.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(mainFrame, "Please enter an amount.");
+        }
+    } else {
+        JOptionPane.showMessageDialog(mainFrame, "No user logged in.");
+    }
+}
 
 
     private static void showAccountBalance() {
