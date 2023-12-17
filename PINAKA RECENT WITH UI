@@ -694,30 +694,30 @@ public class BankManagementSystem {
         }
     }
 
-    private static void performDeposit() {
-    // Perform deposit action
-    if (currentUser != null) {
-        String amountString = JOptionPane.showInputDialog(mainFrame, "Enter amount to deposit:");
-        if (amountString != null && !amountString.trim().isEmpty()) {
-            try {
-                double amount = Double.parseDouble(amountString);
-                if (amount > 0) {
-                    currentUser.deposit(amount); // Update balance with deposited amount
-                    JOptionPane.showMessageDialog(mainFrame, "Deposited amount: P" + amount);
-                } else {
-                    JOptionPane.showMessageDialog(mainFrame, "Please enter a valid positive amount.");
-                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(mainFrame, "Please enter a valid numeric amount.");
-            }
-        } else if (amountString != null && amountString.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(mainFrame, "Please enter an amount.");
-        }
-    } else {
-        JOptionPane.showMessageDialog(mainFrame, "No user logged in.");
-    }
-}
-
+       private static void performDeposit() {
+       // Perform deposit action
+       if (currentUser != null) {
+           String amountString = JOptionPane.showInputDialog(mainFrame, "Enter amount to deposit:");
+           if (amountString != null && !amountString.trim().isEmpty()) {
+               try {
+                   double amount = Double.parseDouble(amountString);
+                   if (amount > 0) {
+                       currentUser.deposit(amount); // Update balance with deposited amount
+                       JOptionPane.showMessageDialog(mainFrame, "Deposited amount: P" + amount);
+                   } else {
+                       JOptionPane.showMessageDialog(mainFrame, "Please enter a valid positive amount.");
+                   }
+               } catch (NumberFormatException ex) {
+                   JOptionPane.showMessageDialog(mainFrame, "Please enter a valid numeric amount.");
+               }
+           } else if (amountString != null && amountString.trim().isEmpty()) {
+               JOptionPane.showMessageDialog(mainFrame, "Please enter an amount.");
+           }
+       } else {
+           JOptionPane.showMessageDialog(mainFrame, "No user logged in.");
+       }
+   }
+   
       private static void performWithdraw() {
           // Perform withdraw action
           if (currentUser != null) {
@@ -807,6 +807,14 @@ public class BankManagementSystem {
            editButton.setBackground(editButtonColor);
            saveButton.setBackground(saveButtonColor);
            backButton.setBackground(backButtonColor);
+           
+           editButton.setFocusable(false);
+           saveButton.setFocusable(false);
+           backButton.setFocusable(false);
+           
+           editButton.setBorder(BorderFactory.createEtchedBorder());
+           saveButton.setBorder(BorderFactory.createEtchedBorder());
+           backButton.setBorder(BorderFactory.createEtchedBorder());
                   
            nameField.addFocusListener(new FocusListener() {
             @Override
