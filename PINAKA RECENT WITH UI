@@ -361,22 +361,33 @@ public class BankManagementSystem {
         // Create register panel with components and actions
         JPanel registerPanel = new JPanel(new GridLayout(6, 2, 10, 10));
         registerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        Font labelFont = new Font("Arial", Font.BOLD, 14);
+        Font labelFont = new Font("Monaco", Font.BOLD, 14);
 
         JLabel idLabel = new JLabel("ID:");
-        idLabel.setFont(labelFont);
         JTextField idField = new JTextField();
-        JLabel usernameLabel = new JLabel("Username:");
-        usernameLabel.setFont(labelFont);
+        JLabel usernameLabel = new JLabel("Username:");       
         JTextField usernameField = new JTextField();
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setFont(labelFont);
+        JLabel passwordLabel = new JLabel("Password:");        
         JPasswordField passwordField = new JPasswordField();
         JLabel confirmPasswordLabel = new JLabel("Confirm Password:");
-        confirmPasswordLabel.setFont(labelFont);
         JPasswordField confirmPasswordField = new JPasswordField();
+        
+        // Set Font
+        idLabel.setFont(labelFont);
+        usernameLabel.setFont(labelFont);
+        passwordLabel.setFont(labelFont);
+        confirmPasswordLabel.setFont(labelFont);
+        
+        // Set Font Color
+        idLabel.setForeground(Color.BLACK);
+        usernameLabel.setForeground(Color.BLACK);
+        passwordLabel.setForeground(Color.BLACK);
+        confirmPasswordLabel.setForeground(Color.BLACK);
+        
+        
         JButton registerButton = new JButton("Register");
         JButton goToLoginButton = new JButton("Login");
+        
         
         goToLoginButton.setBackground(Color.BLUE);
         registerButton.setBackground(Color.GREEN);
@@ -738,11 +749,24 @@ public class BankManagementSystem {
            JButton editButton = new JButton("Edit");
            JButton saveButton = new JButton("Save");
            JButton backButton = new JButton("Back to Menu");
-          
-              
-           editButton.setBackground(Color.GREEN);
-           saveButton.setBackground(Color.BLUE);
-           backButton.setBackground(Color.LIGHT_GRAY);
+           
+           // BUTTON FONTS
+           editButton.setFont(labelFont);
+           saveButton.setFont(labelFont);
+           backButton.setFont(labelFont);
+           
+           //BUTTON FONT COLORS
+           editButton.setForeground(Color.WHITE);
+           saveButton.setForeground(Color.WHITE);
+           backButton.setForeground(Color.BLACK);
+           
+           Color editButtonColor = new Color(0, 74, 173);
+           Color saveButtonColor = new Color(179, 115, 5);
+           Color backButtonColor = new Color(153, 153, 153);
+   
+           editButton.setBackground(editButtonColor);
+           saveButton.setBackground(saveButtonColor);
+           backButton.setBackground(backButtonColor);
                   
            nameField.addFocusListener(new FocusListener() {
             @Override
