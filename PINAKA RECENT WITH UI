@@ -402,12 +402,15 @@ public class BankManagementSystem {
         loginButton.setFont(buttonFont);
         loginButton.setForeground(Color.WHITE);  
         loginButton.setBackground(loginColor);
+        loginButton.setFocusable(false);
+        loginButton.setBorder(BorderFactory.createEtchedBorder());
           
         // REGISTER BUTTON
         registerButton.setFont(buttonFont);
         registerButton.setForeground(Color.WHITE);
         registerButton.setBackground(registerColor);
-        
+        registerButton.setFocusable(false);
+        registerButton.setBorder(BorderFactory.createEtchedBorder());
          
         
         idField.addFocusListener(new FocusListener() {
