@@ -223,7 +223,7 @@ public class BankManagementSystem {
         imagePanel.add(imageLabel, BorderLayout.CENTER);
 
         // Create a container panel to hold both the image panel and the main panel with CardLayout
-        JPanel containerPanel = new JPanel(new BorderLayout());
+        JPanel containerPanel = new JPanel(new BorderLayout()); 
         containerPanel.setOpaque(false); // Set panel to be transparent
         containerPanel.add(imagePanel, BorderLayout.NORTH);
         containerPanel.add(mainPanel, BorderLayout.CENTER);
@@ -250,16 +250,18 @@ public class BankManagementSystem {
     // LOGIN PANEL
     private static void createLoginPanel() {
           JPanel loginPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+          Color loginPanelColor = new Color(0, 74, 173);
+          loginPanel.setBackground(loginPanelColor);
           loginPanel.setBorder(BorderFactory.createEmptyBorder(20, 100, 20, 100));
           Font labelFont = new Font("Monaco", Font.BOLD, 17);
                 
           JLabel usernameLabel = new JLabel("Username:");
-          usernameLabel.setForeground(Color.BLACK);
+          usernameLabel.setForeground(Color.WHITE);
           usernameLabel.setFont(labelFont);
           JTextField usernameField = new JTextField(20);
           
           JLabel passwordLabel = new JLabel("Password:");
-          passwordLabel.setForeground(Color.BLACK);
+          passwordLabel.setForeground(Color.WHITE);
           passwordLabel.setFont(labelFont);
           JPasswordField passwordField = new JPasswordField(20);
           
@@ -703,40 +705,44 @@ public class BankManagementSystem {
        // Show user profile information
        // Check if a user is logged in
        if (currentUser != null) {
-           // Modified showProfile to display and edit currentUser's profile
            JPanel profilePanel = new JPanel(new GridLayout(6, 2, 10, 10));
            profilePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-           Font labelFont = new Font("Arial", Font.BOLD, 14);
-   
+           Font labelFont = new Font("Monaco", Font.BOLD, 14); 
+           
            JLabel nameLabel = new JLabel("Name:");
-           nameLabel.setFont(labelFont);
            JTextField nameField = new JTextField(currentUser.getUsername());
-   
            JLabel emailLabel = new JLabel("Email:");
-           emailLabel.setFont(labelFont);
-           JTextField emailField = new JTextField(); // Assuming email is not stored in User class
-   
-           JLabel addressLabel = new JLabel("Address:");
-           addressLabel.setFont(labelFont);
-           JTextField addressField = new JTextField(); // Assuming address is not stored in User class
-   
-           JLabel phoneLabel = new JLabel("Phone:");
-           phoneLabel.setFont(labelFont);
-           JTextField phoneField = new JTextField(); // Assuming phone is not stored in User class
+           JTextField emailField = new JTextField();
+           JLabel addressLabel = new JLabel("Address:");          
+           JTextField addressField = new JTextField();
+           JLabel phoneLabel = new JLabel("Phone:");   
+           JTextField phoneField = new JTextField();
             
            nameField.setText(currentUser.getUsername());
            emailField.setText(currentUser.getEmail());
            addressField.setText(currentUser.getAddress());
            phoneField.setText(currentUser.getPhone());
            
+           // Set Fonts
+           nameLabel.setFont(labelFont);
+           emailLabel.setFont(labelFont);
+           addressLabel.setFont(labelFont);
+           phoneLabel.setFont(labelFont);
+           
+           // Set Font Color
+           nameLabel.setForeground(Color.BLACK);
+           emailLabel.setForeground(Color.BLACK);
+           addressLabel.setForeground(Color.BLACK);
+           phoneLabel.setForeground(Color.BLACK);
+           
            JButton editButton = new JButton("Edit");
            JButton saveButton = new JButton("Save");
            JButton backButton = new JButton("Back to Menu");
           
               
-        editButton.setBackground(Color.GREEN);
-        saveButton.setBackground(Color.BLUE);
-        backButton.setBackground(Color.LIGHT_GRAY);
+           editButton.setBackground(Color.GREEN);
+           saveButton.setBackground(Color.BLUE);
+           backButton.setBackground(Color.LIGHT_GRAY);
                   
            nameField.addFocusListener(new FocusListener() {
             @Override
