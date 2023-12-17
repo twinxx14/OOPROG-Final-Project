@@ -695,48 +695,57 @@ public class BankManagementSystem {
     }
 
     private static void performDeposit() {
-        // Perform deposit action
-        if (currentUser != null) {
+    // Perform deposit action
+    if (currentUser != null) {
         String amountString = JOptionPane.showInputDialog(mainFrame, "Enter amount to deposit:");
-        try {
-            double amount = Double.parseDouble(amountString);
-            if (amount > 0) {
-                currentUser.deposit(amount); // Update balance with deposited amount
-                JOptionPane.showMessageDialog(mainFrame, "Deposited amount: P" + amount);
-            } else {
-                JOptionPane.showMessageDialog(mainFrame, "Please enter a valid positive amount.");
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(mainFrame, "Please enter a valid numeric amount.");
-        }
-          } else {
-              JOptionPane.showMessageDialog(mainFrame, "No user logged in.");
-          }
-    }
-
-    private static void performWithdraw() {
-        // Perform withdraw action
-        if (currentUser != null) {
-        String amountString = JOptionPane.showInputDialog(mainFrame, "Enter amount to withdraw:");
-        try {
-            double amount = Double.parseDouble(amountString);
-            if (amount > 0) {
-                if (amount <= currentUser.getBalance()) {
-                    currentUser.withdraw(amount); // Update balance with withdrawn amount
-                    JOptionPane.showMessageDialog(mainFrame, "Withdrawn amount: P" + amount);
+        if (amountString != null && !amountString.trim().isEmpty()) {
+            try {
+                double amount = Double.parseDouble(amountString);
+                if (amount > 0) {
+                    currentUser.deposit(amount); // Update balance with deposited amount
+                    JOptionPane.showMessageDialog(mainFrame, "Deposited amount: P" + amount);
                 } else {
-                    JOptionPane.showMessageDialog(mainFrame, "Insufficient funds.");
+                    JOptionPane.showMessageDialog(mainFrame, "Please enter a valid positive amount.");
                 }
-            } else {
-                JOptionPane.showMessageDialog(mainFrame, "Please enter a valid positive amount.");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(mainFrame, "Please enter a valid numeric amount.");
             }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(mainFrame, "Please enter a valid numeric amount.");
+        } else if (amountString != null && amountString.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(mainFrame, "Please enter an amount.");
         }
     } else {
         JOptionPane.showMessageDialog(mainFrame, "No user logged in.");
-       }
     }
+}
+
+      private static void performWithdraw() {
+          // Perform withdraw action
+          if (currentUser != null) {
+              String amountString = JOptionPane.showInputDialog(mainFrame, "Enter amount to withdraw:");
+              if (amountString != null && !amountString.trim().isEmpty()) {
+                  try {
+                      double amount = Double.parseDouble(amountString);
+                      if (amount > 0) {
+                          if (amount <= currentUser.getBalance()) {
+                              currentUser.withdraw(amount); // Update balance with withdrawn amount
+                              JOptionPane.showMessageDialog(mainFrame, "Withdrawn amount: P" + amount);
+                          } else {
+                              JOptionPane.showMessageDialog(mainFrame, "Insufficient funds.");
+                          }
+                      } else {
+                          JOptionPane.showMessageDialog(mainFrame, "Please enter a valid positive amount.");
+                      }
+                  } catch (NumberFormatException ex) {
+                      JOptionPane.showMessageDialog(mainFrame, "Please enter a valid numeric amount.");
+                  }
+              } else if (amountString != null && amountString.trim().isEmpty()) {
+                  JOptionPane.showMessageDialog(mainFrame, "Please enter an amount.");
+              }
+          } else {
+              JOptionPane.showMessageDialog(mainFrame, "No user logged in.");
+          }
+      }
+
 
     private static void showAccountBalance() {
         // Display account balance
