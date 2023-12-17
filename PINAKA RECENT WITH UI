@@ -504,8 +504,6 @@ public class BankManagementSystem {
         JButton profileButton = new JButton("Profile");
         JButton logoutButton = new JButton("Logout");
         
-        ImageIcon depositIcon = new ImageIcon("depositIcon.png");
-        
         
          // Set font for buttons
         Font buttonFont = new Font("Monaco", Font.BOLD, 15);
@@ -521,12 +519,20 @@ public class BankManagementSystem {
         withdrawButton.setBackground(Color.LIGHT_GRAY);
         transactionHistoryButton.setBackground(Color.LIGHT_GRAY);
         accountBalanceButton.setBackground(Color.LIGHT_GRAY);
-        profileButton.setBackground(Color.BLUE);
-        logoutButton.setBackground(Color.RED);
+        profileButton.setBackground(Color.LIGHT_GRAY);
+        logoutButton.setBackground(Color.LIGHT_GRAY);
+        
+        // Set border
+        depositButton.setBorder(BorderFactory.createEtchedBorder());
+        withdrawButton.setBorder(BorderFactory.createEtchedBorder());
+        transactionHistoryButton.setBorder(BorderFactory.createEtchedBorder());
+        accountBalanceButton.setBorder(BorderFactory.createEtchedBorder());
+        profileButton.setBorder(BorderFactory.createEtchedBorder());
+        logoutButton.setBorder(BorderFactory.createEtchedBorder());
         
         // Set preferred sizes for the buttons
         int buttonWidth = 200; // Adjust the width as needed
-        int buttonHeight = 60; // Adjust the height as needed
+        int buttonHeight = 50; // Adjust the height as needed
    
         depositButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
         withdrawButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
@@ -536,9 +542,6 @@ public class BankManagementSystem {
         logoutButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
    
         // Set the icon for the depositButton and fit it within the button
-        depositButton.setIcon(depositIcon);
-        depositButton.setHorizontalTextPosition(SwingConstants.RIGHT);
-        depositButton.setHorizontalAlignment(SwingConstants.LEFT);
         depositButton.setMargin(new Insets(10, 30, 10, 30)); 
         
         // Action listeners for menu buttons
