@@ -542,6 +542,14 @@ public class BankManagementSystem {
         profileButton.setBackground(Color.LIGHT_GRAY);
         logoutButton.setBackground(Color.LIGHT_GRAY);
         
+        // Set focusable to false to remove text border in button
+        depositButton.setFocusable(false);
+        withdrawButton.setFocusable(false);
+        transactionHistoryButton.setFocusable(false);
+        accountBalanceButton.setFocusable(false);
+        profileButton.setFocusable(false);
+        logoutButton.setFocusable(false);
+        
         // Set border
         depositButton.setBorder(BorderFactory.createEtchedBorder());
         withdrawButton.setBorder(BorderFactory.createEtchedBorder());
